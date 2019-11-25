@@ -1,0 +1,1 @@
+web: UPLOAD_PATH=tmp/upload java $JAVA_OPTS -cp "./web-app/target/dependency/*" webapp.runner.launch.Main $PORT ./web-app/target/*.war --enable-naming

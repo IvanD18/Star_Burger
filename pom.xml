@@ -93,7 +93,7 @@
     </repositories>
 
     <modules>
-        <module>lib</module>
+
         <module>sql-template</module>
         <module>web-app</module>
     </modules>
