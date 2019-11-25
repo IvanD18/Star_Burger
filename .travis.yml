@@ -4,4 +4,4 @@ script: mvn -e verify
 deploy:
   provider: heroku
   api_key: $HEROKU_KEY
-  app: star_burger
+  app: star-burger
