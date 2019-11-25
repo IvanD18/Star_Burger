@@ -2,9 +2,7 @@ package ru.rosbank.javaschool.web.servlet;
 
 import ru.rosbank.javaschool.util.SQLTemplate;
 import ru.rosbank.javaschool.web.constant.Constants;
-import ru.rosbank.javaschool.web.model.AdminsModel;
 import ru.rosbank.javaschool.web.model.ProductModel;
-import ru.rosbank.javaschool.web.product.Sandwich;
 import ru.rosbank.javaschool.web.repository.*;
 import ru.rosbank.javaschool.web.service.BurgerAdminService;
 import ru.rosbank.javaschool.web.service.BurgerUserService;
@@ -61,10 +59,6 @@ public class FrontServlet extends HttpServlet {
         adminsRepository.save("Tiger01", "0000");
 
     }
-//    private void insertInitialData(ProductRepository productRepository) {
-//        productRepository.save(new Sandwich(0, "BigMac", 200, 5, "burger.png", "cool burger"));
-//
-//    }
 
 
     @Override

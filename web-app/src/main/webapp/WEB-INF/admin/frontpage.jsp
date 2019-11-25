@@ -54,7 +54,7 @@
     </div>
     <div class="form group">
       <label for="description">Product Description</label>
-      <input type="text" min="0" id="description" name="quantity">
+      <input type="text" id="description" name="description">
     </div>
     <div class="form group">
       <label for="image_url">Product image</label>
@@ -80,12 +80,12 @@
       <label for="quantity">Product Quantity</label>
       <input type="number" min="0" id="quantity" name="quantity" value="<%= item.getQuantity() %>">
     </div><div class="form group">
-      <label for="quantity">Product Decription</label>
-      <input type="text" min="0" id="description" name="description" value="<%= item.getDescription() %>">
+      <label for="description">Product Decription</label>
+      <input type="text" id="description" name="description" value="<%= item.getDescription() %>">
     </div>
     <div class="form group">
       <label for="image_url">Product image</label>
-      <input type="file"  id="image_url" name="image_url" accept="image/*" >
+      <input type="file"  id="image_url" name="image_url" accept="image/*" value="<%= item.getImageUrl() %>" >
     </div>
     <button class="btn btn-primary">Save</button>
   </form>

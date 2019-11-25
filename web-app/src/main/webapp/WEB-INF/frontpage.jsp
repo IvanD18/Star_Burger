@@ -27,7 +27,7 @@
     <p><a href="<%= request.getContextPath() %>/enter" class="btn btn-secondary">I'm admin</a></p>
 
     <div class="row">
-        <% for (ProductModel item : (List<ProductModel>) request.getAttribute(Constants.ITEMS)) { %>
+        <% for (ProductModel item : (List<ProductModel>) request.getAttribute(Constants.ITEMS)) { if(item.getQuantity()>0){%>
         <div class="col-3">
             <div class="card mt-3">
                 <div style="height: auto"><img src="<%= item.getImageUrl() %>" alt="<%= item.getImageUrl() %>"
@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <% } %>
+        <%} } %>
     </div>
 </div>
 
