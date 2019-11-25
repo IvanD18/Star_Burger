@@ -22,18 +22,15 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.*;
 
+import static ru.rosbank.javaschool.web.constant.Constants.ID;
+import static ru.rosbank.javaschool.web.constant.Constants.ORDER_ID;
 
-// Singleton'ы - Servlet*
 public class FrontServlet extends HttpServlet {
     private BurgerUserService burgerUserService;
     private BurgerAdminService burgerAdminService;
     private EnterService enterService;
     public boolean enterLabel = false;
 
-//  @Override
-//  protected void doPost(HttpServletRequest req,HttpServletResponse resp){
-//    String login
-//  }
 
     @Override
     public void init() throws ServletException {
@@ -53,15 +50,15 @@ public class FrontServlet extends HttpServlet {
             burgerAdminService = new BurgerAdminService(productRepository, orderRepository, orderPositionRepository);
             enterService = new EnterServiceImpl(adminsRepository);
             insertInitialData(adminsRepository);
-            // insertInitialData(adminsRepository);
 
         } catch (NamingException e) {
             e.printStackTrace();
         }
     }
+
     private void insertInitialData(AdminsRepository adminsRepository) {
-        adminsRepository.save("IvanD18","qwer1234");
-        adminsRepository.save("Tiger01","0000");
+        adminsRepository.save("IvanD18", "qwer1234");
+        adminsRepository.save("Tiger01", "0000");
 
     }
 //    private void insertInitialData(ProductRepository productRepository) {
@@ -103,60 +100,55 @@ public class FrontServlet extends HttpServlet {
         }
 
 
-        if (url.startsWith("/admin")) {if(enterLabel){
-            if (url.equals("/admin")) {
+        if (url.startsWith("/admin")) {
+            if (enterLabel) {
+                if (url.equals("/admin")) {
 
-                if (req.getMethod().equals("GET")) {
-                    req.setAttribute(Constants.ITEMS, burgerAdminService.getAll());
-                    req.getRequestDispatcher("/WEB-INF/admin/frontpage.jsp").forward(req, resp);
-                    return;
+                    if (req.getMethod().equals("GET")) {
+                        req.setAttribute(Constants.ITEMS, burgerAdminService.getAll());
+                        req.getRequestDispatcher("/WEB-INF/admin/frontpage.jsp").forward(req, resp);
+                        return;
+                    }
+
+                    if (req.getMethod().equals("POST")) {
+
+                        int id = Integer.parseInt(req.getParameter(ID));
+                        String name = req.getParameter("name");
+                        int price = Integer.parseInt(req.getParameter("price"));
+                        int quantity = Integer.parseInt(req.getParameter("quantity"));
+                        String imageUrl = req.getParameter("image_url");
+                        String description = req.getParameter("description");
+                        burgerAdminService.save(new ProductModel(id, name, price, quantity, imageUrl, description));
+                        resp.sendRedirect(url);
+                        return;
+                    }
                 }
 
-                if (req.getMethod().equals("POST")) {
-
-                    int id = Integer.parseInt(req.getParameter("id"));
-                    String name = req.getParameter("name");
-                    int price = Integer.parseInt(req.getParameter("price"));
-                    int quantity = Integer.parseInt(req.getParameter("quantity"));
-                    String imageUrl = req.getParameter("image_url");
-                    String description = req.getParameter("description");
-                    burgerAdminService.save(new ProductModel(id, name, price, quantity, imageUrl, description));
-                    resp.sendRedirect(url);
-                    return;
+                if (url.startsWith("/admin/edit")) {
+                    if (req.getMethod().equals("GET")) {
+                        // ?id=value
+                        int id = Integer.parseInt(req.getParameter(ID));
+                        req.setAttribute(Constants.ITEM, burgerAdminService.getById(id));
+                        req.setAttribute(Constants.ITEMS, burgerAdminService.getAll());
+                        req.getRequestDispatcher("/WEB-INF/admin/frontpage.jsp").forward(req, resp);
+                        return;
+                    }
                 }
+            } else {
+                req.getRequestDispatcher("/WEB-INF/enter.jsp").forward(req, resp);
             }
-
-            if (url.startsWith("/admin/edit")) {
-                if (req.getMethod().equals("GET")) {
-                    // ?id=value
-                    int id = Integer.parseInt(req.getParameter("id"));
-                    req.setAttribute(Constants.ITEM, burgerAdminService.getById(id));
-                    req.setAttribute(Constants.ITEMS, burgerAdminService.getAll());
-                    req.getRequestDispatcher("/WEB-INF/admin/frontpage.jsp").forward(req, resp);
-                    return;
-                }
-            }
-        }else{
-            req.getRequestDispatcher("/WEB-INF/enter.jsp").forward(req, resp);
-        }
         }
 
-
-//        if (url.startsWith("/trans")) {
-//            if (req.getMethod().equals("GET")) {
-//                req.getRequestDispatcher("/WEB-INF/frontpage.jsp").forward(req, resp);
-//            }
-//        }
         if (url.equals("/")) {
 
             if (req.getMethod().equals("GET")) {
                 HttpSession session = req.getSession();
                 if (session.isNew()) {
                     int orderId = burgerUserService.createOrder();
-                    session.setAttribute("order-id", orderId);
+                    session.setAttribute(ORDER_ID, orderId);
                 }
 
-                int orderId = (Integer) session.getAttribute("order-id");
+                int orderId = (Integer) session.getAttribute(ORDER_ID);
                 req.setAttribute("ordered-items", burgerUserService.getAllOrderPosition(orderId));
                 req.setAttribute(Constants.ITEMS, burgerUserService.getAll());
                 req.getRequestDispatcher("/WEB-INF/frontpage.jsp").forward(req, resp);
@@ -167,12 +159,12 @@ public class FrontServlet extends HttpServlet {
                 if (session.isNew()) {
                     int orderId = burgerUserService.createOrder();
 
-                    session.setAttribute("order-id", orderId);
+                    session.setAttribute(ORDER_ID, orderId);
                 }
 
-                int orderId = (Integer) session.getAttribute("order-id");
+                int orderId = (Integer) session.getAttribute(ORDER_ID);
 
-                int id = Integer.parseInt(req.getParameter("id"));
+                int id = Integer.parseInt(req.getParameter(ID));
                 int quantity = Integer.parseInt(req.getParameter("quantity"));
 
                 burgerUserService.order(orderId, id, quantity);
@@ -185,7 +177,7 @@ public class FrontServlet extends HttpServlet {
 
             if (req.getMethod().equals("GET")) {
 
-                int id = Integer.parseInt(req.getParameter("id"));
+                int id = Integer.parseInt(req.getParameter(ID));
                 System.out.println(id);
                 req.setAttribute(Constants.ITEM, burgerAdminService.getById(id));
                 req.getRequestDispatcher("/WEB-INF/description.jsp").forward(req, resp);
@@ -195,26 +187,27 @@ public class FrontServlet extends HttpServlet {
         }
 
         if (url.startsWith("/basket")) {
-            if(url.equals("/basket")){
+            if (url.equals("/basket")) {
 
 
-            if (req.getMethod().equals("GET")) {
+                if (req.getMethod().equals("GET")) {
 
-                HttpSession session = req.getSession();
-                int orderId = (Integer) session.getAttribute("order-id");
-                System.out.println(orderId);
-                req.setAttribute(Constants.ITEMS,burgerUserService.getAllOrderPosition(orderId));
+                    HttpSession session = req.getSession();
+                    int orderId = (Integer) session.getAttribute(ORDER_ID);
+                    System.out.println(orderId);
+                    req.setAttribute(Constants.ITEMS, burgerUserService.getAllOrderPosition(orderId));
 
-                req.getRequestDispatcher("/WEB-INF/basket.jsp").forward(req, resp);
-                return;
-            }}
-            if(url.startsWith("/basket/remove")){
+                    req.getRequestDispatcher("/WEB-INF/basket.jsp").forward(req, resp);
+                    return;
+                }
+            }
+            if (url.startsWith("/basket/remove")) {
                 if (req.getMethod().equals("GET")) {
                     // ?id=value
-                    int id = Integer.parseInt(req.getParameter("id"));
+                    int id = Integer.parseInt(req.getParameter(ID));
                     burgerUserService.removeById(id);
                     HttpSession session = req.getSession();
-                    int orderId = (Integer) session.getAttribute("order-id");
+                    int orderId = (Integer) session.getAttribute(ORDER_ID);
 
                     req.setAttribute(Constants.ITEMS, burgerUserService.getAllOrderPosition(orderId));
                     System.out.println(id);

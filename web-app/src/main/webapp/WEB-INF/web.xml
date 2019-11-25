@@ -9,7 +9,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <!-- mapping - привязка обработчика к определённому URL-->
     <servlet-mapping>
         <servlet-name>front</servlet-name>
         <url-pattern>/</url-pattern>

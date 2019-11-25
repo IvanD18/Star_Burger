@@ -26,26 +26,20 @@
     <p><a href="<%= request.getContextPath() %>/basket" class="btn btn-secondary">Go to basket</a></p>
     <p><a href="<%= request.getContextPath() %>/enter" class="btn btn-secondary">I'm admin</a></p>
 
-<%--    <% List<OrderPositionModel> positions = (List<OrderPositionModel>) request.getAttribute("ordered-items"); %>--%>
-<%--    <p><%= positions.size() %>--%>
-<%--    </p>--%>
-<%--    <% for (OrderPositionModel model : positions) { %>--%>
-<%--    <p><%= model %>--%>
-<%--    </p>--%>
-<%--    <% } %>--%>
-
     <div class="row">
         <% for (ProductModel item : (List<ProductModel>) request.getAttribute(Constants.ITEMS)) { %>
-        <div class="col-3"  >
+        <div class="col-3">
             <div class="card mt-3">
-                <div style="height: auto"><img src="<%= item.getImageUrl() %>" alt="<%= item.getImageUrl() %>" class="img-rounded"></div>
-                <div class="card-body" >
+                <div style="height: auto"><img src="<%= item.getImageUrl() %>" alt="<%= item.getImageUrl() %>"
+                                               class="img-rounded"></div>
+                <div class="card-body">
                     <h5 class="card-title"><%= item.getName() %>
                     </h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Price: <%= item.getPrice() %>
                         </li>
-                        <li class="list-group-item"><a href="<%= request.getContextPath() %>/details?id=<%= item.getId()%>">Details</a>
+                        <li class="list-group-item"><a
+                                href="<%= request.getContextPath() %>/details?id=<%= item.getId()%>">Details</a>
                         </li>
                     </ul>
                     <form action="<%= request.getContextPath() %>" method="post">
@@ -55,7 +49,7 @@
                             <input type="number" min="0" id="quantity" name="quantity" value="1">
                         </div>
                         <button class="btn btn-primary">Add to card</button>
-<%--                        <a href="<%= request.getContextPath() %>/basket" class="btn btn-primary">Add to card</a>--%>
+
                     </form>
                 </div>
             </div>

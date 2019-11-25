@@ -1,7 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="ru.rosbank.javaschool.web.constant.Constants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%-- ! + Tab - emmet --%>
 <!doctype html>
 <html lang="en">
 <head>

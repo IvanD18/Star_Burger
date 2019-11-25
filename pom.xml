@@ -86,7 +86,7 @@
     <repositories>
         <repository>
             <id>github</id>
-            <url>https://maven.pkg.github.com/coursar/rosbank-starter</url>
+            <url>https://maven.pkg.github.com/IvanD18/Star_Burger</url>
         </repository>
     </repositories>
 

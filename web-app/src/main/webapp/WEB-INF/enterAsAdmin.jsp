@@ -22,7 +22,6 @@
 
         <label  for="exampleInputPassword3">Password</label>
         <input type="text" name = "password" class="form-control" id="exampleInputPassword3" >
-<%--    <a href="<%= request.getContextPath() %>/admin" class="btn btn-primary">Sign In</a>--%>
    <button class="btn btn-secondary">Sign In</button>
     <a href="<%= request.getContextPath() %>/admin" class="btn btn-primary">Next</a>
 </form>

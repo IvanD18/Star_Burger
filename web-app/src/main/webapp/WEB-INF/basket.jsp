@@ -23,14 +23,6 @@
 <div class="container">
 
     <h1>Basket</h1>
-<%--        <% List<OrderPositionModel> positions = (List<OrderPositionModel>) request.getAttribute(Constants.ITEMS); %>--%>
-<%--        <p><%= positions.size() %>--%>
-<%--        </p>--%>
-<%--        <% for (OrderPositionModel model : positions) { %>--%>
-<%--        <p><%= model %>--%>
-<%--        </p>--%>
-<%--        <% } %>--%>
-
     <div class="row">
         <% for (OrderPositionModel item : (List<OrderPositionModel>) request.getAttribute(Constants.ITEMS)) { %>
         <div class="col-3"  >
